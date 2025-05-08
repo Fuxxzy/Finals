@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C and PHP Quiz</title>
+  <style>
+    /* Keep your existing CSS unchanged for consistency */
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .quiz-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    .options {
+      margin-top: 10px;
+    }
+
+    .option {
+      margin: 5px 0;
+      padding: 8px;
+      background-color: #e8f4fc;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .option:hover {
+      background-color: #d0e3f1;
+    }
+
+    .option.selected {
+      background-color: #3498db;
+      color: white;
+    }
+
+    .option.correct {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    .option.incorrect {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .score-container {
+      text-align: center;
+      font-size: 18px;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .correct-feedback {
+      background-color: #d5f5e3;
+      color: #27ae60;
+    }
+
+    .incorrect-feedback {
+      background-color: #fadbd8;
+      color: #e74c3c;
+    }
+
+    #submit-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 25px;
+      font-size: 18px;
+      background-color: #2ecc71;
+    }
+
+    #submit-btn:hover {
+      background-color: #27ae60;
+    }
+
+    #restart-btn {
+      display: block;
+      margin: 20px auto;
+      background-color: #e74c3c;
+    }
+
+    #restart-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>C and PHP Quiz</h1>
+
+  <div class="score-container">
+    Score: <span id="score">0</span> / <span id="total-questions">0</span>
+  </div>
+
+  <div class="quiz-container" id="quiz-container"></div>
+
+  <button id="submit-btn">Submit Answers</button>
+  <button id="restart-btn" style="display: none;">Restart Quiz</button>
+
+  <script>
+    const quizData = [
+      { question: "Standard Input/Output library (for functions like printf).", answer: "#include <stdio.h>", options: ["#include &ltconio.h&gt;", "#include &lt;stdio.h&gt;", "#include &lt;dos.h&gt;", "#include &lt;math.h&gt;"] },
+      { question: "Console Input/Output functions (like clrscr(), getch(), and cprintf()).", answer: "#include <conio.h>", options: ["#include &lt;stdio.h&gt;", "#include &lt;stdlib.h&gt;", "#include &lt;conio.h&gt;", "#include &lt;graphics.h&gt;"] },
+      { question: "Contains delay() function, which pauses execution for a specified time.", answer: "#include <dos.h>", options: ["#include &lt;dos.h&gt;", "#include &lt;time.h&gt;", "#include &lt;delay.h&gt;", "#include &lt;unistd.h&gt;"] },
+      { question: "The main function of the program, where execution starts", answer: "void main;", options: ["int main();", "main()", "void start;", "void main;"] },
+      { question: "Clear screen", answer: "clrscr();", options: ["printf();", "clear();", "clrscr();", "system('clear');"] },
+      { question: "Hides the blinking cursor to make the progress bar look cleaner", answer: "_setcursortype(_NOCURSOR);", options: ["hideCursor();", "_setcursortype(_NOCURSOR);", "cursor(false);", "setCursor(0);"] },
+      { question: "Defines the area of the console to be used for output.", answer: "Window (left, top, right, bottom);", options: ["setOutputArea();", "Window (left, top, right, bottom);", "areaSet();", "consoleWindow();"] },
+      { question: "Refers to the text-based output window", answer: "console", options: ["terminal", "shell", "cmd", "console"] },
+      { question: "Use to loop a certain number.", answer: "for (int x=0;x<70;x++)", options: ["while (x<70)", "for (int x=0;x<70;x++)", "loop x=1 to 70", "repeat 70 times"] },
+      { question: "Color the progress bar (Changes text color.)", answer: "textcolor(GREEN);", options: ["color(GREEN);", "textcolor(GREEN);", "setColor(GREEN);", "fontColor(GREEN);"] },
+      { question: "Prints a solid block character", answer: "printf(“%c”, 219);", options: ["cout << 219;", "print(‘█’);", "printf(“%c”, 219);", "display(219);"] },
+      { question: "Simulate loading delay", answer: "delay(60);", options: ["pause(60);", "wait(60);", "sleep(60);", "delay(60);"] },
+      { question: "Wait for user input before closing", answer: "getch();", options: ["pause();", "getchar();", "getch();", "wait();"] },
+      { question: "Ends the program successfully.", answer: "return 0;", options: ["exit();", "end();", "return;", "return 0;"] },
+      { question: "Declares a variable i to use in the loop.", answer: "int i;", options: ["var i;", "int i;", "let i;", "i = 0;"] },
+      { question: "Use to position the an item.", answer: "gotoxy(x, y)", options: ["moveTo(x, y)", "gotoxy(x, y)", "setPos(x, y)", "xy(x, y)"] },
+      { question: "The size of console where Turbo C typically runs in is", answer: "80x25 console", options: ["60x20", "100x30", "80x25 console", "70x40"] },
+      { question: "The middle of the screen is", answer: "40", options: ["20", "50", "30", "40"] },
+      { question: "In for loop “i = 1” is the", answer: "initialization", options: ["condition", "increment", "initialization", "comparison"] },
+      { question: "In for loop “i <= 20” is the", answer: "condition", options: ["increment", "comparison", "condition", "initializer"] },
+      { question: "In for loop “i++” is the", answer: "increment", options: ["loop", "condition", "increment", "update"] },
+      { question: "What is the requirement in C for all variables before they are used.", answer: "declare int", options: ["define", "initialize", "declare int", "import"] },
+      { question: "It keeps track of how many times the loop has run.", answer: "loop control variable", options: ["counter", "index", "loop controller", "loop control variable"] },
+      { question: "In C, all variables must be declared at the ____ of a function before using them.", answer: "start", options: ["bottom", "middle", "top", "start"] },
+      { question: "What does PHP stand for", answer: "Hypertext Preprocessor.", options: ["Preprocessed HyperText", "Programming HTML Page", "Personal Homepage Protocol", "Hypertext Preprocessor."] },
+      { question: "A popular and widely-used open source server-side scripting language.", answer: "PHP", options: ["Java", "PHP", "Python", "Node.js"] },
+      { question: "Who originally created PHP", answer: "Rasmus Lerdorf", options: ["Guido van Rossum", "Dennis Ritchie", "Rasmus Lerdorf", "James Gosling"] },
+      { question: "When was PHP created", answer: "1994.", options: ["1998.", "1990.", "1994.", "2000."] },
+      { question: "PHP was initially known as", answer: "Personal Home Page.", options: ["Private Host Page", "Personal Hyperlink Page", "Personal Home Page.", "PHP Hypertext"] },
+      { question: "PHP scripts are executed on the server and the result is sent to the browser as", answer: "plain HTML.", options: ["JavaScript", "compiled code", "plain HTML.", "JSON"] },
+      { question: "The current major version of PHP is", answer: "8", options: ["5", "6", "7", "8"] },
+      { question: "A free and open-source cross-platform web server solution stack developed by Apache Friends", answer: "XAMPP", options: ["WAMP", "XAMP", "XAMPP", "LAMP"] },
+      { question: "What happens when the condition (i <= 20) is false", answer: "the loop stops", options: ["it restarts", "the loop continues", "error occurs", "the loop stops"] }
+];
+
+    // Initialize quiz
+    let score = 0;
+    let userAnswers = new Array(quizData.length).fill(null);
+    const quizContainer = document.getElementById("quiz-container");
+    const scoreElement = document.getElementById("score");
+    const totalQuestionsElement = document.getElementById("total-questions");
+    const submitBtn = document.getElementById("submit-btn");
+    const restartBtn = document.getElementById("restart-btn");
+
+    totalQuestionsElement.textContent = quizData.length;
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function displayQuiz() {
+      quizContainer.innerHTML = '';
+
+      shuffleArray(quizData); // Shuffle the questions
+      quizData.forEach(question => shuffleArray(question.options)); // Shuffle options
+
+      quizData.forEach((questionData, index) => {
+        const questionElement = document.createElement('div');
+        questionElement.className = 'question';
+        questionElement.innerHTML = `
+            <div class="question-text">${questionData.question}</div>
+            <div class="options" id="options-${index}">
+                ${questionData.options.map(option => `
+                    <div class="option" data-question="${index}" data-option="${option}">${option}</div>
+                `).join('')}
+            </div>
+            <div class="feedback" id="feedback-${index}"></div>
+        `;
+        quizContainer.appendChild(questionElement);
+      });
+
+      document.querySelectorAll('.option').forEach(option => {
+        option.addEventListener('click', selectOption);
+      });
+    }
+
+
+    function selectOption(e) {
+      const qIndex = parseInt(e.target.getAttribute("data-question"));
+      const selectedOption = e.target.getAttribute("data-option");
+      userAnswers[qIndex] = selectedOption;
+
+      document.querySelectorAll(`#options-${qIndex} .option`).forEach(opt => opt.classList.remove("selected"));
+      e.target.classList.add("selected");
+    }
+
+    function checkAnswers() {
+      score = 0;
+      quizData.forEach((q, i) => {
+        const userAns = userAnswers[i];
+        const feedback = document.getElementById(`feedback-${i}`);
+        const opts = document.querySelectorAll(`#options-${i} .option`);
+
+        opts.forEach(opt => {
+          opt.classList.remove("correct", "incorrect");
+          if (opt.getAttribute("data-option") === q.answer) {
+            opt.classList.add("correct");
+          } else if (opt.getAttribute("data-option") === userAns && userAns !== q.answer) {
+            opt.classList.add("incorrect");
+          }
+        });
+
+        if (userAns === q.answer) {
+          score++;
+          feedback.textContent = "Correct!";
+          feedback.className = "feedback correct-feedback";
+        } else if (userAns !== null) {
+          feedback.textContent = `Incorrect. The correct answer is: ${q.answer}`;
+          feedback.className = "feedback incorrect-feedback";
+        } else {
+          feedback.textContent = `You didn't answer this question. The correct answer is: ${q.answer}`;
+          feedback.className = "feedback incorrect-feedback";
+        }
+
+        feedback.style.display = "block";
+      });
+
+      scoreElement.textContent = score;
+      submitBtn.style.display = "none";
+      restartBtn.style.display = "block";
+    }
+
+    function restartQuiz() {
+      score = 0;
+      userAnswers = new Array(quizData.length).fill(null);
+      scoreElement.textContent = "0";
+      displayQuiz();
+      submitBtn.style.display = "block";
+      restartBtn.style.display = "none";
+    }
+
+    submitBtn.addEventListener("click", checkAnswers);
+    restartBtn.addEventListener("click", restartQuiz);
+
+    displayQuiz();
+  </script>
+</body>
+
+</html>

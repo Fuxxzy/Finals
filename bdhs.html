@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research Methods Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .quiz-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    .options {
+      margin-top: 10px;
+    }
+
+    .option {
+      margin: 5px 0;
+      padding: 8px;
+      background-color: #e8f4fc;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .option:hover {
+      background-color: #d0e3f1;
+    }
+
+    .option.selected {
+      background-color: #3498db;
+      color: white;
+    }
+
+    .option.correct {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    .option.incorrect {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .score-container {
+      text-align: center;
+      font-size: 18px;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .correct-feedback {
+      background-color: #d5f5e3;
+      color: #27ae60;
+    }
+
+    .incorrect-feedback {
+      background-color: #fadbd8;
+      color: #e74c3c;
+    }
+
+    #submit-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 25px;
+      font-size: 18px;
+      background-color: #2ecc71;
+    }
+
+    #submit-btn:hover {
+      background-color: #27ae60;
+    }
+
+    #restart-btn {
+      display: block;
+      margin: 20px auto;
+      background-color: #e74c3c;
+    }
+
+    #restart-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Research Methods Quiz</h1>
+
+  <div class="score-container">
+    Score: <span id="score">0</span> / <span id="total-questions">55</span>
+  </div>
+
+  <div class="quiz-container" id="quiz-container">
+    <!-- Questions will be inserted here by JavaScript -->
+  </div>
+
+  <button id="submit-btn">Submit Answers</button>
+  <button id="restart-btn" style="display: none;">Restart Quiz</button>
+
+  <script>
+    const quizData = [
+      {
+        question: "1. Presents a broad-to-narrow understanding of the existing situation.",
+        options: [
+                    "Literature Review",
+                    "Situation Analysis",
+                    "Research Design",
+                    "Data Collection"
+                ],
+        answer: "Situation Analysis"
+            },
+      {
+        question: "2. Section gives a concise overview of the problem you're investigating.",
+        options: [
+                    "Project Context",
+                    "Research Problem",
+                    "Significance of the Study",
+                    "Literature Review"
+                ],
+        answer: "Project Context"
+            },
+      {
+        question: "3. Highlights the value and impact of the research project.",
+        options: [
+                    "Purpose",
+                    "Scope",
+                    "Significance of the Study",
+                    "Research Problem"
+                ],
+        answer: "Significance of the Study"
+            },
+      {
+        question: "4. States the intention or goal of the research.",
+        options: [
+                    "Purpose",
+                    "Objective",
+                    "Hypothesis",
+                    "Research Question"
+                ],
+        answer: "Purpose"
+            },
+      {
+        question: "5. Describes areas included in the research and specifies the information sources.",
+        options: [
+                    "Scope",
+                    "Limitation",
+                    "Methodology",
+                    "Data Analysis"
+                ],
+        answer: "Scope"
+            },
+      {
+        question: "6. Highlights uncontrollable variables or aspects that cannot be covered by the project.",
+        options: [
+                    "Scope",
+                    "Limitation",
+                    "Research Gap",
+                    "Methodological Constraint"
+                ],
+        answer: "Limitation"
+            },
+      {
+        question: "7. It analyzes relevant studies to identify knowledge gaps.",
+        options: [
+                    "Review of Related Literature/Studies",
+                    "Research Methodology",
+                    "Data Analysis",
+                    "Literature Synthesis"
+                ],
+        answer: "Review of Related Literature/Studies"
+            },
+      {
+        question: "8. Identifies the global trends in software development.",
+        options: [
+                    "Macro Level",
+                    "Meso Level",
+                    "Micro Level",
+                    "Global Level"
+                ],
+        answer: "Macro Level"
+            },
+      {
+        question: "9. Identifies the different challenges and opportunities in the industry.",
+        options: [
+                    "Macro Level",
+                    "Meso Level",
+                    "Micro Level",
+                    "Industry Level"
+                ],
+        answer: "Meso Level"
+            },
+      {
+        question: "10. Identifies the specific problem you are addressing with your project.",
+        options: [
+                    "Macro Level",
+                    "Meso Level",
+                    "Micro Level",
+                    "Project Level"
+                ],
+        answer: "Micro Level"
+            },
+      {
+        question: "11. What tool uses a set of questions to gather data from people?",
+        options: [
+                    "Interview",
+                    "Questionnaire",
+                    "Survey",
+                    "Checklist"
+                ],
+        answer: "Questionnaire"
+            },
+      {
+        question: "12. What method involves asking questions and recording spoken answers?",
+        options: [
+                    "Questionnaire",
+                    "Interview",
+                    "Observation",
+                    "Focus Group"
+                ],
+        answer: "Interview"
+            },
+      {
+        question: "13. What do you call the ability of a tool to measure what it should?",
+        options: [
+                    "Reliability",
+                    "Validity",
+                    "Accuracy",
+                    "Precision"
+                ],
+        answer: "Validity"
+            },
+      {
+        question: "14. What kind of interview uses fixed questions in the same order?",
+        options: [
+                    "Structured Interview",
+                    "Unstructured Interview",
+                    "Semi-structured Interview",
+                    "Open-ended Interview"
+                ],
+        answer: "Structured Interview"
+            },
+      {
+        question: "15. What should be avoided in questions to prevent influencing answers?",
+        options: [
+                    "Open-ended Questions",
+                    "Biased Questions",
+                    "Multiple-choice Questions",
+                    "Leading Questions"
+                ],
+        answer: "Biased Questions"
+            },
+      {
+        question: "16. What quality means a tool gives the same results when used again?",
+        options: [
+                    "Validity",
+                    "Reliability",
+                    "Consistency",
+                    "Repeatability"
+                ],
+        answer: "Reliability"
+            },
+      {
+        question: "17. What part of a problem statement explains why the study is important?",
+        options: [
+                    "Research Problem",
+                    "Significance of the Study",
+                    "Purpose",
+                    "Scope"
+                ],
+        answer: "Significance of the Study"
+            },
+      {
+        question: "18. What kind of data includes age, gender, or nationality?",
+        options: [
+                    "Quantitative Data",
+                    "Qualitative Data",
+                    "Descriptive Data",
+                    "Numerical Data"
+                ],
+        answer: "Descriptive Data"
+            },
+      {
+        question: "19. What should a tool have to ensure it collects correct data?",
+        options: [
+                    "Clear Directions",
+                    "Many Questions",
+                    "Complex Wording",
+                    "Open-ended Format"
+                ],
+        answer: "Clear Directions"
+            },
+      {
+        question: "20. What should you do first before writing a research question?",
+        options: [
+                    "Preliminary Research",
+                    "Data Collection",
+                    "Literature Review",
+                    "Hypothesis Formulation"
+                ],
+        answer: "Preliminary Research"
+            },
+      {
+        question: "21. What kind of topic should you choose to keep yourself motivated?",
+        options: [
+                    "Popular Topic",
+                    "Easy Topic",
+                    "Interesting Topic",
+                    "Controversial Topic"
+                ],
+        answer: "Interesting Topic"
+            },
+      {
+        question: "22. What step helps you find out what's already known about your topic?",
+        options: [
+                    "Review of Related Literature",
+                    "Data Collection",
+                    "Research Design",
+                    "Hypothesis Testing"
+                ],
+        answer: "Review of Related Literature"
+            },
+      {
+        question: "23. What is included in preliminary research?",
+        options: [
+                    "Narrowing Down the Topic",
+                    "Data Analysis",
+                    "Writing Conclusions",
+                    "Conducting Surveys"
+                ],
+        answer: "Narrowing Down the Topic"
+            },
+      {
+        question: "24. What process helps you focus your broad topic into a specific one?",
+        options: [
+                    "Statement of the Problem",
+                    "Literature Review",
+                    "Data Collection",
+                    "Research Design"
+                ],
+        answer: "Statement of the Problem"
+            },
+      {
+        question: "25. What type of question helps you analyze instead of just describe?",
+        options: [
+                    "What Question",
+                    "When Question",
+                    "How or Why Question",
+                    "Who Question"
+                ],
+        answer: "How or Why Question"
+            },
+      {
+        question: "26. What part of your paper briefly describes the issue to be studied?",
+        options: [
+                    "Research Problem",
+                    "Descriptive Data",
+                    "Introduction",
+                    "Abstract"
+                ],
+        answer: "Descriptive Data"
+            },
+      {
+        question: "27. What defines the gap in knowledge that your study wants to solve?",
+        options: [
+                    "Research Problem",
+                    "Literature Review",
+                    "Methodology",
+                    "Data Analysis"
+                ],
+        answer: "Research Problem"
+            },
+      {
+        question: "28. What do you call tools like questionnaires, interviews, or observations?",
+        options: [
+                    "Research Methods",
+                    "Research Instruments",
+                    "Data Collection Tools",
+                    "Measurement Devices"
+                ],
+        answer: "Research Instruments"
+            },
+      {
+        question: "29. What tools are used to gather data for answering your research questions?",
+        options: [
+                    "Research Instruments",
+                    "Data Collection Tools",
+                    "Analysis Software",
+                    "Measurement Scales"
+                ],
+        answer: "Data Collection Tools"
+            },
+      {
+        question: "30. What ensures that participants join the research willingly and knowingly?",
+        options: [
+                    "Confidentiality Agreement",
+                    "Informed Consent",
+                    "Research Ethics",
+                    "Voluntary Participation"
+                ],
+        answer: "Informed Consent"
+            },
+      {
+        question: "31. Type of research that aims to describe characteristics or behaviors without establishing cause-and-effect.",
+        options: [
+                    "Experimental Research",
+                    "Descriptive Research",
+                    "Correlational Research",
+                    "Exploratory Research"
+                ],
+        answer: "Descriptive Research"
+            },
+      {
+        question: "32. A commonly used tool in descriptive research that involves structured questionnaires.",
+        options: [
+                    "Case Study",
+                    "Survey",
+                    "Experiment",
+                    "Observation"
+                ],
+        answer: "Survey"
+            },
+      {
+        question: "33. A detailed and in-depth investigation of a single unit such as a person, group, or system.",
+        options: [
+                    "Survey",
+                    "Case Study",
+                    "Experiment",
+                    "Longitudinal Study"
+                ],
+        answer: "Case Study"
+            },
+      {
+        question: "34. A method where behavior is recorded in a natural environment without manipulation.",
+        options: [
+                    "Experiment",
+                    "Observation",
+                    "Interview",
+                    "Survey"
+                ],
+        answer: "Observation"
+            },
+      {
+        question: "35. A sampling technique where every member of the population has a known and equal chance of being selected.",
+        options: [
+                    "Convenience Sampling",
+                    "Probability Sampling",
+                    "Purposive Sampling",
+                    "Snowball Sampling"
+                ],
+        answer: "Probability Sampling"
+            },
+      {
+        question: "36. Descriptive research usually answers this type of question instead of 'why.'",
+        options: [
+                    "What",
+                    "How",
+                    "When",
+                    "Where"
+                ],
+        answer: "What"
+            },
+      {
+        question: "37. Sampling technique where elements are selected based on availability or judgment.",
+        options: [
+                    "Probability Sampling",
+                    "Random Sampling",
+                    "Non-Probability Sampling",
+                    "Stratified Sampling"
+                ],
+        answer: "Non-Probability Sampling"
+            },
+      {
+        question: "38. This non-probability sampling method involves selecting individuals who are easiest to reach or readily available.",
+        options: [
+                    "Purposive Sampling",
+                    "Snowball Sampling",
+                    "Convenience Sampling",
+                    "Quota Sampling"
+                ],
+        answer: "Convenience Sampling"
+            },
+      {
+        question: "39. These are the individuals who provide answers or feedback in a research study.",
+        options: [
+                    "Researchers",
+                    "Respondents",
+                    "Participants",
+                    "Subjects"
+                ],
+        answer: "Respondents"
+            },
+      {
+        question: "40. The individual responsible for conducting and analyzing the research.",
+        options: [
+                    "Respondent",
+                    "Participant",
+                    "Researcher",
+                    "Investigator"
+                ],
+        answer: "Researcher"
+            },
+      {
+        question: "41. The entire group a researcher is interested in studying or generalizing to.",
+        options: [
+                    "Sample",
+                    "Population",
+                    "Target Group",
+                    "Demographic"
+                ],
+        answer: "Population"
+            },
+      {
+        question: "42. This probability sampling technique gives every member of the population an equal chance of being selected.",
+        options: [
+                    "Stratified Sampling",
+                    "Cluster Sampling",
+                    "Random Sampling",
+                    "Systematic Sampling"
+                ],
+        answer: "Random Sampling"
+            },
+      {
+        question: "43. To ensure that a sample accurately represents the population, researchers must carefully choose appropriate __________.",
+        options: [
+                    "Research Methods",
+                    "Sampling Strategy",
+                    "Data Collection Tools",
+                    "Analysis Techniques"
+                ],
+        answer: "Sampling Strategy"
+            },
+      {
+        question: "44. Quantitative research design has 4 main types, namely: Experimental, Quasi-Experimental, Descriptive, and __________.",
+        options: [
+                    "Qualitative Research",
+                    "Exploratory Research",
+                    "Correlational Research",
+                    "Longitudinal Research"
+                ],
+        answer: "Correlational Research"
+            },
+      {
+        question: "45. The process of defining how data will be collected, analyzed, and interpreted in a study.",
+        options: [
+                    "Research Methodology",
+                    "Research Design",
+                    "Data Collection",
+                    "Literature Review"
+                ],
+        answer: "Research Design"
+            },
+      {
+        question: "46. A researcher identifies that there are no existing studies on how artificial intelligence affects workplace ethics. What type of research gap is this?",
+        options: [
+                    "Literature Gap",
+                    "Conceptual Gap",
+                    "Methodological Gap",
+                    "Empirical Gap"
+                ],
+        answer: "Literature Gap"
+            },
+      {
+        question: "47. Which research gap occurs when there is a lack of clarity in the research design or theoretical framework?",
+        options: [
+                    "Literature Gap",
+                    "Conceptual Gap",
+                    "Methodological Gap",
+                    "Practical Gap"
+                ],
+        answer: "Conceptual Gap"
+            },
+      {
+        question: "48. A researcher wants to investigate how virtual reality impacts student engagement, but there is no agreed-upon definition of student engagement. What research gap exists?",
+        options: [
+                    "Literature Gap",
+                    "Conceptual Gap",
+                    "Empirical Gap",
+                    "Historical Gap"
+                ],
+        answer: "Conceptual Gap"
+            },
+      {
+        question: "49. A researcher finds that most studies on online learning focus only on academic performance but not on student engagement. What type of research gap is this?",
+        options: [
+                    "Literature Gap",
+                    "Conceptual Gap",
+                    "Methodological Gap",
+                    "Practical Gap"
+                ],
+        answer: "Literature Gap"
+            },
+      {
+        question: "50. If a research study on mental health and exercise provides conflicting results, which type of gap is present?",
+        options: [
+                    "Literature Gap",
+                    "Conceptual Gap",
+                    "Empirical Gap",
+                    "Methodological Gap"
+                ],
+        answer: "Empirical Gap"
+            },
+      {
+        question: "51. If a researcher finds that an important historical event lacks reliable sources or firsthand accounts, what type of research gap is present?",
+        options: [
+                    "Historical Gap",
+                    "Literature Gap",
+                    "Conceptual Gap",
+                    "Empirical Gap"
+                ],
+        answer: "Historical Gap"
+            },
+      {
+        question: "52. What type of research gap exists when there is insufficient empirical data to support a hypothesis?",
+        options: [
+                    "Literature Gap",
+                    "Conceptual Gap",
+                    "Empirical Gap",
+                    "Practical Gap"
+                ],
+        answer: "Empirical Gap"
+            },
+      {
+        question: "53. A study on climate change only uses data from one country but applies its conclusions globally, which research gap might exist?",
+        options: [
+                    "Literature Gap",
+                    "Conceptual Gap",
+                    "Methodological Gap",
+                    "Cultural Gap"
+                ],
+        answer: "Methodological Gap"
+            },
+      {
+        question: "54. A researcher finds a lack of diverse cultural perspectives in studies about workplace productivity. What gap is identified?",
+        options: [
+                    "Cultural Gap",
+                    "Conceptual Gap",
+                    "Practical Gap",
+                    "Empirical Gap"
+                ],
+        answer: "Cultural Gap"
+            },
+      {
+        question: "55. A study on online education does not consider accessibility challenges for students with disabilities. What type of research gap does this illustrate?",
+        options: [
+                    "Literature Gap",
+                    "Conceptual Gap",
+                    "Practical Gap",
+                    "Methodological Gap"
+                ],
+        answer: "Practical Gap"
+            }
+        ];
+
+    // Initialize variables
+    let currentQuestion = 0;
+    let score = 0;
+    let userAnswers = new Array(quizData.length).fill(null);
+
+    // DOM elements
+    const quizContainer = document.getElementById('quiz-container');
+    const scoreElement = document.getElementById('score');
+    const totalQuestionsElement = document.getElementById('total-questions');
+    const submitBtn = document.getElementById('submit-btn');
+    const restartBtn = document.getElementById('restart-btn');
+
+    // Set total questions
+    totalQuestionsElement.textContent = quizData.length;
+
+    // Display quiz questions
+    function displayQuiz() {
+      quizContainer.innerHTML = '';
+
+      quizData.forEach((questionData, index) => {
+        const questionElement = document.createElement('div');
+        questionElement.className = 'question';
+        questionElement.innerHTML = `
+                    <div class="question-text">${questionData.question}</div>
+                    <div class="options" id="options-${index}">
+                        ${questionData.options.map(option => `
+                            <div class="option" data-question="${index}" data-option="${option}">${option}</div>
+                        `).join('')}
+                    </div>
+                    <div class="feedback" id="feedback-${index}"></div>
+                `;
+        quizContainer.appendChild(questionElement);
+      });
+
+      // Add event listeners to options
+      document.querySelectorAll('.option').forEach(option => {
+        option.addEventListener('click', selectOption);
+      });
+    }
+
+    // Handle option selection
+    function selectOption(e) {
+      const questionIndex = parseInt(e.target.getAttribute('data-question'));
+      const selectedOption = e.target.getAttribute('data-option');
+
+      // Store user's answer
+      userAnswers[questionIndex] = selectedOption;
+
+      // Update UI
+      const options = document.querySelectorAll(`#options-${questionIndex} .option`);
+      options.forEach(opt => {
+        opt.classList.remove('selected');
+      });
+      e.target.classList.add('selected');
+    }
+
+    // Check answers and calculate score
+    function checkAnswers() {
+      score = 0;
+      quizData.forEach((questionData, index) => {
+        if (userAnswers[index] === questionData.answer) {
+          score++;
+        }
+
+        // Show feedback
+        const feedbackElement = document.getElementById(`feedback-${index}`);
+        const options = document.querySelectorAll(`#options-${index} .option`);
+
+        options.forEach(opt => {
+          opt.classList.remove('correct', 'incorrect');
+          if (opt.getAttribute('data-option') === questionData.answer) {
+            opt.classList.add('correct');
+          } else if (opt.getAttribute('data-option') === userAnswers[index] && userAnswers[index] !== questionData.answer) {
+            opt.classList.add('incorrect');
+          }
+        });
+
+        if (userAnswers[index] === questionData.answer) {
+          feedbackElement.textContent = 'Correct!';
+          feedbackElement.className = 'feedback correct-feedback';
+        } else if (userAnswers[index] !== null) {
+          feedbackElement.textContent = `Incorrect. The correct answer is: ${questionData.answer}`;
+          feedbackElement.className = 'feedback incorrect-feedback';
+        } else {
+          feedbackElement.textContent = `No answer was selected. The answer is: ${questionData.answer}`;
+          feedbackElement.className = 'feedback incorrect-feedback';
+        }
+
+        feedbackElement.style.display = 'block';
+      });
+
+      // Update score
+      scoreElement.textContent = score;
+
+      // Show restart button
+      submitBtn.style.display = 'none';
+      restartBtn.style.display = 'block';
+    }
+
+    // Restart quiz
+    function restartQuiz() {
+      score = 0;
+      userAnswers = new Array(quizData.length).fill(null);
+      scoreElement.textContent = '0';
+
+      // Reset UI
+      displayQuiz();
+
+      submitBtn.style.display = 'block';
+      restartBtn.style.display = 'none';
+    }
+
+    // Event listeners
+    submitBtn.addEventListener('click', checkAnswers);
+    restartBtn.addEventListener('click', restartQuiz);
+
+    // Initialize quiz
+    displayQuiz();
+  </script>
+</body>
+
+</html>

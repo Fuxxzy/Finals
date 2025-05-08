@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Networking Knowledge Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .quiz-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    .options {
+      margin-top: 10px;
+    }
+
+    .option {
+      margin: 5px 0;
+      padding: 8px;
+      background-color: #e8f4fc;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .option:hover {
+      background-color: #d0e3f1;
+    }
+
+    .option.selected {
+      background-color: #3498db;
+      color: white;
+    }
+
+    .option.correct {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    .option.incorrect {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .score-container {
+      text-align: center;
+      font-size: 18px;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .correct-feedback {
+      background-color: #d5f5e3;
+      color: #27ae60;
+    }
+
+    .incorrect-feedback {
+      background-color: #fadbd8;
+      color: #e74c3c;
+    }
+
+    #submit-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 25px;
+      font-size: 18px;
+      background-color: #2ecc71;
+    }
+
+    #submit-btn:hover {
+      background-color: #27ae60;
+    }
+
+    #restart-btn {
+      display: block;
+      margin: 20px auto;
+      background-color: #e74c3c;
+    }
+
+    #restart-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Networking Knowledge Quiz</h1>
+
+  <div class="score-container">
+    Score: <span id="score">0</span> / <span id="total-questions">25</span>
+  </div>
+
+  <div class="quiz-container" id="quiz-container">
+    <!-- Questions will be inserted here by JavaScript -->
+  </div>
+
+  <button id="submit-btn">Submit Answers</button>
+  <button id="restart-btn" style="display: none;">Restart Quiz</button>
+
+  <script>
+    const quizData = [
+      {
+        question: "What is the primary purpose of networking?",
+        options: [
+                    "To connect computers and share resources",
+                    "To increase computer processing power",
+                    "To create standalone workstations",
+                    "To reduce the need for internet access"
+                ],
+        answer: "To connect computers and share resources"
+            },
+      {
+        question: "What does TCP/IP stand for?",
+        options: [
+                    "Transmission Control Protocol/Internet Protocol",
+                    "Technical Connection Protocol/Internet Provider",
+                    "Total Control Protocol/Internet Pathway",
+                    "Transmission Connection Protocol/Internet Pathway"
+                ],
+        answer: "Transmission Control Protocol/Internet Protocol"
+            },
+      {
+        question: "Which networking model consists of seven layers?",
+        options: [
+                    "TCP/IP Model",
+                    "OSI Model",
+                    "Ethernet Model",
+                    "Internet Model"
+                ],
+        answer: "OSI Model"
+            },
+      {
+        question: "Why are routers important in networking?",
+        options: [
+                    "They connect different networks and determine the best path for data",
+                    "They provide wireless connectivity to devices",
+                    "They store all network data",
+                    "They increase internet speed"
+                ],
+        answer: "They connect different networks and determine the best path for data"
+            },
+      {
+        question: "What is the main difference between a LAN and a WAN?",
+        options: [
+                    "LANs use cables while WANs are wireless",
+                    "LANs are for local areas, while WANs cover broader geographical locations",
+                    "LANs are faster than WANs",
+                    "WANs are more secure than LANs"
+                ],
+        answer: "LANs are for local areas, while WANs cover broader geographical locations"
+            },
+      {
+        question: "How does the TCP/IP model simplify network communication?",
+        options: [
+                    "By reducing the number of layers compared to the OSI model",
+                    "By eliminating the need for IP addresses",
+                    "By making all connections wireless",
+                    "By removing the need for routers"
+                ],
+        answer: "By reducing the number of layers compared to the OSI model"
+            },
+      {
+        question: "A network administrator wants to divide a large network into smaller, more manageable segments. Which technology should be implemented?",
+        options: [
+                    "VPN",
+                    "VLAN",
+                    "NAT",
+                    "QoS"
+                ],
+        answer: "VLAN"
+            },
+      {
+        question: "Why might a company prefer a managed switch over an unmanaged switch?",
+        options: [
+                    "Managed switches are cheaper",
+                    "Managed switches provide advanced features like VLANs and QoS",
+                    "Managed switches require less configuration",
+                    "Managed switches have fewer ports"
+                ],
+        answer: "Managed switches provide advanced features like VLANs and QoS"
+            },
+      {
+        question: "A company needs a networking device that will prioritize certain types of traffic (e.g., video conferencing) over others. Which feature should they enable?",
+        options: [
+                    "VLAN",
+                    "NAT",
+                    "QoS",
+                    "DNS"
+                ],
+        answer: "QoS"
+            },
+      {
+        question: "A system administrator is trying to secure network traffic. Which method provides the best encryption for remote access?",
+        options: [
+                    "HTTP",
+                    "FTP",
+                    "SSH",
+                    "Telnet"
+                ],
+        answer: "SSH"
+            },
+      {
+        question: "Which network topology is most resilient to failures?",
+        options: [
+                    "Bus topology",
+                    "Star topology",
+                    "Ring topology",
+                    "Mesh topology"
+                ],
+        answer: "Mesh topology"
+            },
+      {
+        question: "A company wants to allow employees to access work files from home securely. What should be implemented?",
+        options: [
+                    "LAN",
+                    "WAN",
+                    "VPN",
+                    "VLAN"
+                ],
+        answer: "VPN"
+            },
+      {
+        question: "What is the main function of a DHCP server in a network?",
+        options: [
+                    "Blocks unauthorized access",
+                    "Assigns IP addresses automatically to devices",
+                    "Filters website content",
+                    "Provides wireless connectivity"
+                ],
+        answer: "Assigns IP addresses automatically to devices"
+            },
+      {
+        question: "Which command is commonly used to check the connectivity between two devices on a network?",
+        options: [
+                    "ipconfig",
+                    "ping",
+                    "tracert",
+                    "nslookup"
+                ],
+        answer: "ping"
+            },
+      {
+        question: "What does the acronym NAT stand for in networking?",
+        options: [
+                    "Network Access Technology",
+                    "Network Address Translation",
+                    "Network Authentication Technique",
+                    "Network Administration Tool"
+                ],
+        answer: "Network Address Translation"
+            },
+      {
+        question: "How does a firewall enhance network security?",
+        options: [
+                    "By controlling and filtering incoming and outgoing network traffic",
+                    "By increasing network speed",
+                    "By providing wireless access",
+                    "By storing backup data"
+                ],
+        answer: "By controlling and filtering incoming and outgoing network traffic"
+            },
+      {
+        question: "What is the purpose of a subnet mask in a network?",
+        options: [
+                    "To divide a network into smaller segments",
+                    "To encrypt network traffic",
+                    "To provide wireless access",
+                    "To increase internet speed"
+                ],
+        answer: "To divide a network into smaller segments"
+            },
+      {
+        question: "What is the function of a default gateway in a network?",
+        options: [
+                    "It provides a path for data to exit the local network and reach external networks",
+                    "It assigns IP addresses automatically",
+                    "It filters malicious websites",
+                    "It provides wireless connectivity"
+                ],
+        answer: "It provides a path for data to exit the local network and reach external networks"
+            },
+      {
+        question: "Which protocol is responsible for resolving domain names into IP addresses?",
+        options: [
+                    "DHCP",
+                    "DNS",
+                    "FTP",
+                    "HTTP"
+                ],
+        answer: "DNS"
+            },
+      {
+        question: "A technician needs to assign a static IP address to a computer. Which network settings should they configure?",
+        options: [
+                    "IP address only",
+                    "IP address and subnet mask",
+                    "IP address, subnet mask, gateway, and DNS",
+                    "Subnet mask and gateway only"
+                ],
+        answer: "IP address, subnet mask, gateway, and DNS"
+            },
+      {
+        question: "A network administrator notices that a specific computer cannot communicate with others. What is the best first step in troubleshooting?",
+        options: [
+                    "Check if the network cable is connected properly",
+                    "Reboot the entire network",
+                    "Replace the computer",
+                    "Upgrade the operating system"
+                ],
+        answer: "Check if the network cable is connected properly"
+            },
+      {
+        question: "An organization wants to implement security measures to prevent unauthorized access. Which of the following is the most effective approach?",
+        options: [
+                    "Implementing multi-factor authentication (MFA)",
+                    "Using longer passwords",
+                    "Disabling firewalls",
+                    "Sharing login credentials"
+                ],
+        answer: "Implementing multi-factor authentication (MFA)"
+            },
+      {
+        question: "A business requires high-speed internet for video conferencing and cloud applications. Which type of internet connection is best suited?",
+        options: [
+                    "Dial-up",
+                    "DSL",
+                    "Cable",
+                    "Fiber optic"
+                ],
+        answer: "Fiber optic"
+            },
+      {
+        question: "A company is experiencing unauthorized access to their internal network. Which security measure should they implement first?",
+        options: [
+                    "Implementing a strong password policy and enabling firewalls",
+                    "Disabling all remote access",
+                    "Removing all antivirus software",
+                    "Sharing network credentials via email"
+                ],
+        answer: "Implementing a strong password policy and enabling firewalls"
+            },
+      {
+        question: "A business is setting up a new office network. Which factor should they consider when choosing between wired and wireless connections?",
+        options: [
+                    "Wired networks provide more security and stability, while wireless offers mobility",
+                    "Wireless networks are always faster than wired",
+                    "Wired networks don't require any configuration",
+                    "Wireless networks are more secure than wired"
+                ],
+        answer: "Wired networks provide more security and stability, while wireless offers mobility"
+            }
+        ];
+
+    // Initialize quiz
+    let score = 0;
+    let userAnswers = new Array(quizData.length).fill(null);
+    const quizContainer = document.getElementById("quiz-container");
+    const scoreElement = document.getElementById("score");
+    const totalQuestionsElement = document.getElementById("total-questions");
+    const submitBtn = document.getElementById("submit-btn");
+    const restartBtn = document.getElementById("restart-btn");
+
+    totalQuestionsElement.textContent = quizData.length;
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function displayQuiz() {
+      quizContainer.innerHTML = '';
+
+      shuffleArray(quizData); // Shuffle the questions
+      quizData.forEach(question => shuffleArray(question.options)); // Shuffle options
+
+      quizData.forEach((questionData, index) => {
+        const questionElement = document.createElement('div');
+        questionElement.className = 'question';
+        questionElement.innerHTML = `
+            <div class="question-text">${questionData.question}</div>
+            <div class="options" id="options-${index}">
+                ${questionData.options.map(option => `
+                    <div class="option" data-question="${index}" data-option="${option}">${option}</div>
+                `).join('')}
+            </div>
+            <div class="feedback" id="feedback-${index}"></div>
+        `;
+        quizContainer.appendChild(questionElement);
+      });
+
+      document.querySelectorAll('.option').forEach(option => {
+        option.addEventListener('click', selectOption);
+      });
+    }
+
+
+    function selectOption(e) {
+      const qIndex = parseInt(e.target.getAttribute("data-question"));
+      const selectedOption = e.target.getAttribute("data-option");
+      userAnswers[qIndex] = selectedOption;
+
+      document.querySelectorAll(`#options-${qIndex} .option`).forEach(opt => opt.classList.remove("selected"));
+      e.target.classList.add("selected");
+    }
+
+    function checkAnswers() {
+      score = 0;
+      quizData.forEach((q, i) => {
+        const userAns = userAnswers[i];
+        const feedback = document.getElementById(`feedback-${i}`);
+        const opts = document.querySelectorAll(`#options-${i} .option`);
+
+        opts.forEach(opt => {
+          opt.classList.remove("correct", "incorrect");
+          if (opt.getAttribute("data-option") === q.answer) {
+            opt.classList.add("correct");
+          } else if (opt.getAttribute("data-option") === userAns && userAns !== q.answer) {
+            opt.classList.add("incorrect");
+          }
+        });
+
+        if (userAns === q.answer) {
+          score++;
+          feedback.textContent = "Correct!";
+          feedback.className = "feedback correct-feedback";
+        } else if (userAns !== null) {
+          feedback.textContent = `Incorrect. The correct answer is: ${q.answer}`;
+          feedback.className = "feedback incorrect-feedback";
+        } else {
+          feedback.textContent = `You didn't answer this question. The correct answer is: ${q.answer}`;
+          feedback.className = "feedback incorrect-feedback";
+        }
+
+        feedback.style.display = "block";
+      });
+
+      scoreElement.textContent = score;
+      submitBtn.style.display = "none";
+      restartBtn.style.display = "block";
+    }
+
+    function restartQuiz() {
+      score = 0;
+      userAnswers = new Array(quizData.length).fill(null);
+      scoreElement.textContent = "0";
+      displayQuiz();
+      submitBtn.style.display = "block";
+      restartBtn.style.display = "none";
+    }
+
+    submitBtn.addEventListener("click", checkAnswers);
+    restartBtn.addEventListener("click", restartQuiz);
+
+    displayQuiz();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Age Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .quiz-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    .options {
+      margin-top: 10px;
+    }
+
+    .option {
+      margin: 5px 0;
+      padding: 8px;
+      background-color: #e8f4fc;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .option:hover {
+      background-color: #d0e3f1;
+    }
+
+    .option.selected {
+      background-color: #3498db;
+      color: white;
+    }
+
+    .option.correct {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    .option.incorrect {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .score-container {
+      text-align: center;
+      font-size: 18px;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .correct-feedback {
+      background-color: #d5f5e3;
+      color: #27ae60;
+    }
+
+    .incorrect-feedback {
+      background-color: #fadbd8;
+      color: #e74c3c;
+    }
+
+    #submit-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 25px;
+      font-size: 18px;
+      background-color: #2ecc71;
+    }
+
+    #submit-btn:hover {
+      background-color: #27ae60;
+    }
+
+    #restart-btn {
+      display: block;
+      margin: 20px auto;
+      background-color: #e74c3c;
+    }
+
+    #restart-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Digital Age Quiz</h1>
+
+  <div class="score-container">
+    Score: <span id="score">0</span> / <span id="total-questions">70</span>
+  </div>
+
+  <div class="quiz-container" id="quiz-container">
+    <!-- Questions will be inserted here by JavaScript -->
+  </div>
+
+  <button id="submit-btn">Submit Answers</button>
+  <button id="restart-btn" style="display: none;">Restart Quiz</button>
+
+  <script>
+    // Wait for DOM to be fully loaded before executing JavaScript
+    document.addEventListener('DOMContentLoaded', function() {
+      const quizData = [
+{
+        question: "1. What is another name for the Digital Age?",
+        options: [
+                    "Industrial Age",
+                    "Space Age",
+                    "Information Age",
+                    "Agricultural Age"
+                ],
+        answer: "Information Age"
+            },
+      {
+        question: "2. Which of the following is NOT a characteristic of the Digital Age?",
+        options: [
+                    "Widespread use of computers",
+                    "Dominance of industrial economies",
+                    "Increased reliance on the internet",
+                    "Central role of mobile devices"
+                ],
+        answer: "Dominance of industrial economies"
+            },
+      {
+        question: "3. What does ICT stand for?",
+        options: [
+                    "International Communication Technology",
+                    "Information and Communication Technology",
+                    "Internet and Computer Technology",
+                    "Integrated Communication Tools"
+                ],
+        answer: "Information and Communication Technology"
+            },
+      {
+        question: "4. Which of the following is an example of ICT?",
+        options: [
+                    "Farming tools",
+                    "The internet",
+                    "Factory machinery",
+                    "Traditional mail"
+                ],
+        answer: "The internet"
+            },
+      {
+        question: "5. How has ICT affected communication?",
+        options: [
+                    "It has made communication slower",
+                    "It has enabled real-time communication across vast distances",
+                    "It has limited the ways people can communicate",
+                    "It has decreased the use of media like text, audio, and video"
+                ],
+        answer: "It has enabled real-time communication across vast distances"
+            },
+      {
+        question: "6. What is 'social change' in the context of the Digital Age?",
+        options: [
+                    "Changes in technology production",
+                    "Shifts in cultural values, social behaviors, and institutions over time",
+                    "The speed of technological advancement",
+                    "How people use social media"
+                ],
+        answer: "Shifts in cultural values, social behaviors, and institutions over time"
+            },
+      {
+        question: "7. Which of the following is NOT a way ICT contributes to addressing social challenges?",
+        options: [
+                    "Increasing access to education",
+                    "Limiting access to health services",
+                    "Providing access to public information",
+                    "Creating employment opportunities"
+                ],
+        answer: "Limiting access to health services"
+            },
+      {
+        question: "8. What has replaced traditional TV and cinema for many people in the Digital Age?",
+        options: [
+                    "Radio broadcasts",
+                    "Streaming services like Netflix and YouTube",
+                    "Newspapers",
+                    "Live theater"
+                ],
+        answer: "Streaming services like Netflix and YouTube"
+            },
+      {
+        question: "9. Which of the following is a characteristic of entertainment in the Digital Age?",
+        options: [
+                    "Less user control",
+                    "Limited global connectivity",
+                    "Highly personalized content",
+                    "Passive consumption"
+                ],
+        answer: "Highly personalized content"
+            },
+      {
+        question: "10. What are some examples of new types of entertainers in the Digital Age?",
+        options: [
+                    "Factory workers",
+                    "Content creators, vloggers, and livestreamers",
+                    "Farmers",
+                    "Assembly line workers"
+                ],
+        answer: "Content creators, vloggers, and livestreamers"
+            },
+      {
+        question: "11. How has ICT changed business operations?",
+        options: [
+                    "By decreasing automation",
+                    "By limiting data analysis",
+                    "By enhancing communication",
+                    "By complicating supply chains"
+                ],
+        answer: "By enhancing communication"
+            },
+      {
+        question: "12. Which of the following is a way businesses use digital tools?",
+        options: [
+                    "Only for physical sales",
+                    "For marketing and customer service",
+                    "To avoid remote collaboration",
+                    "To increase costs"
+                ],
+        answer: "For marketing and customer service"
+            },
+      {
+        question: "13. How do entrepreneurs use ICT?",
+        options: [
+                    "To avoid using social media",
+                    "To start and grow ventures with minimal physical infrastructure",
+                    "To rely on traditional payment systems",
+                    "To limit customer engagement"
+                ],
+        answer: "To start and grow ventures with minimal physical infrastructure"
+            },
+      {
+        question: "14. What is a benefit of using chatbots and CRM software?",
+        options: [
+                    "Decreased customer engagement",
+                    "Better user experiences",
+                    "Increased costs",
+                    "Limited online reviews"
+                ],
+        answer: "Better user experiences"
+            },
+      {
+        question: "15. What is financial inclusion?",
+        options: [
+                    "Excluding people from traditional banking systems",
+                    "Allowing people to save, borrow, and transfer money via mobile banking services",
+                    "Increasing the use of physical currency",
+                    "Limiting access to financial services"
+                ],
+        answer: "Allowing people to save, borrow, and transfer money via mobile banking services"
+            },
+      {
+        question: "16. What can companies track using digital tools?",
+        options: [
+                    "Only financial data",
+                    "Their environmental impact",
+                    "Customer preferences",
+                    "Employee satisfaction"
+                ],
+        answer: "Their environmental impact"
+            },
+      {
+        question: "17. What does PowerPoint allow you to produce?",
+        options: [
+                   "Professional-looking presentations",
+                   "Word-processing documents",
+                   "Spreadsheets",
+                   "Database files"
+               ],
+        answer: "Professional-looking presentations"
+           },
+      {
+        question: "18. What is a PowerPoint slide show?",
+        options: [
+                   "A single slide with text",
+                   "A collection of slides presented in a set pattern",
+                   "A handout with presentation information",
+                   "A video of the presentation"
+               ],
+        answer: "A collection of slides presented in a set pattern"
+           },
+      {
+        question: "19. Which of the following is an element of a PPT?",
+        options: [
+                   "Emails",
+                   "Web pages",
+                   "Clip Art",
+                   "Computer code"
+               ],
+        answer: "Clip Art"
+           },
+      {
+        question: "20. What is the purpose of graphs in a PPT?",
+        options: [
+                   "To add audio elements",
+                   "To organize data in rows and columns",
+                   "To visually represent statistical data",
+                   "To embed video content"
+               ],
+        answer: "To visually represent statistical data"
+           },
+      {
+        question: "21. Where can you find predefined templates for structuring slide content?",
+        options: [
+                   "Insert tab",
+                   "Home tab",
+                   "Animations tab",
+                   "Review tab"
+               ],
+        answer: "Home tab"
+           },
+      {
+        question: "22. What does the Insert tab allow you to add to slides?",
+        options: [
+                   "Motion effects",
+                   "Images, audio, and video",
+                   "Background styles",
+                   "Font customizations"
+               ],
+        answer: "Images, audio, and video"
+           },
+      {
+        question: "23. Where can you find built-in themes and background styles?",
+        options: [
+                   "Design tab",
+                   "View tab",
+                   "Transitions tab",
+                   "Format tab"
+               ],
+        answer: "Design tab"
+           },
+      {
+        question: "24. What are animations in MS PPT?",
+        options: [
+                   "Predefined templates",
+                   "Motion effects added to slides",
+                   "Font customizations",
+                   "Data organization tools"
+               ],
+        answer: "Motion effects added to slides"
+           },
+      {
+        question: "25. Which of the following is a use of PPT in education?",
+        options: [
+                   "Creating digital resumes",
+                   "Showcasing statistical data",
+                   "Enhancing learning with visuals",
+                   "Analyzing company growth"
+               ],
+        answer: "Enhancing learning with visuals"
+           },
+      {
+        question: "26. What is a common use of PPT in business?",
+        options: [
+                   "Creating personal blogs",
+                   "Investor meetings",
+                   "Playing video games",
+                   "Watching movies"
+               ],
+        answer: "Investor meetings"
+           },
+      {
+        question: "27. What is 'netiquette'?",
+        options: [
+                   "Rules for creating computer programs",
+                   "Guidelines for acceptable online behavior",
+                   "Principles of computer hardware design",
+                   "Laws governing internet service providers"
+               ],
+        answer: "Guidelines for acceptable online behavior"
+           },
+      {
+        question: "28. Where does netiquette primarily apply?",
+        options: [
+                   "Only in emails",
+                   "In all digital spaces, like social media and forums",
+                   "Only in online games",
+                   "Only in professional settings"
+               ],
+        answer: "In all digital spaces, like social media and forums"
+           },
+      {
+        question: "29. What is NOT an example of netiquette?",
+        options: [
+                   "Being polite in online discussions",
+                   "Sending unsolicited messages",
+                   "Respecting others' opinions",
+                   "Avoiding cyberbullying"
+               ],
+        answer: "Sending unsolicited messages"
+           },
+      {
+        question: "30. What are 'computer ethics'?",
+        options: [
+                   "Rules for designing websites",
+                   "Moral principles for responsible technology use",
+                   "Standards for creating software",
+                   "Guidelines for using social media"
+               ],
+        answer: "Moral principles for responsible technology use"
+           },
+      {
+        question: "31. Which of the following is an example of computer ethics?",
+        options: [
+                   "Plagiarizing digital content",
+                   "Respecting copyright",
+                   "Spamming online forums",
+                   "Engaging in cyberbullying"
+               ],
+        answer: "Respecting copyright"
+           },
+      {
+        question: "32. What is the purpose of netiquette?",
+        options: [
+                   "To create complex computer networks",
+                   "To ensure polite and effective digital communication",
+                   "To develop new software applications",
+                   "To regulate internet service providers"
+               ],
+        answer: "To ensure polite and effective digital communication"
+           },
+      {
+        question: "33. What does the Golden Rule advise in netiquette?",
+        options: [
+                   "Using emoticons frequently",
+                   "Treating others with kindness and respect",
+                   "Avoiding slang and acronyms",
+                   "Writing in all capital letters"
+               ],
+        answer: "Treating others with kindness and respect"
+           },
+      {
+        question: "34. Why is it important to make a good impression in online communication?",
+        options: [
+                   "To use aggressive communication",
+                   "Because your online communication represents you",
+                   "To use text talk and abbreviations",
+                   "To avoid being mindful of tone"
+               ],
+        answer: "Because your online communication represents you"
+           },
+      {
+        question: "35. When is it appropriate to use emoticons?",
+        options: [
+                   "In professional settings",
+                   "In academic papers",
+                   "Sparingly in informal conversations",
+                   "Frequently in formal emails"
+               ],
+        answer: "Sparingly in informal conversations"
+           },
+      {
+        question: "36. What should you avoid in professional and academic communication?",
+        options: [
+                   "Clear and formal language",
+                   "Proper grammar and spelling",
+                   "Slang, acronyms, and text talk",
+                   "Respectful language"
+               ],
+        answer: "Slang, acronyms, and text talk"
+           },
+      {
+        question: "37. What does writing in all capital letters indicate in online communication?",
+        options: [
+                   "Emphasis",
+                   "Shouting or aggression",
+                   "Formality",
+                   "Clarity"
+               ],
+        answer: "Shouting or aggression"
+           },
+      {
+        question: "38. Why should you proofread your messages before sending?",
+        options: [
+                   "To include missing information",
+                   "To check for errors and clarity",
+                   "To use slang and abbreviations",
+                   "To write in all capital letters"
+               ],
+        answer: "To check for errors and clarity"
+           },
+      {
+        question: "39. What should you consider when sharing information online?",
+        options: [
+                   "Sharing private messages without permission",
+                   "The potential wide audience of social media posts",
+                   "Posting without thinking",
+                   "Ignoring potential consequences"
+               ],
+        answer: "The potential wide audience of social media posts"
+           },
+      {
+        question: "40. What type of information should you avoid sharing online?",
+        options: [
+                   "Home address and phone number",
+                   "General opinions",
+                   "Public information",
+                   "Basic facts"
+               ],
+        answer: "Home address and phone number"
+           },
+      {
+        question: "41. Why is respecting copyright important in the digital age?",
+        options: [
+                    "It encourages plagiarism",
+                    "It protects intellectual property rights",
+                    "It allows free use of all online content",
+                    "It hinders creativity"
+                ],
+        answer: "It protects intellectual property rights"
+            },
+      {
+        question: "42. What is 'plagiarism'?",
+        options: [
+                    "Creating original content",
+                    "Using someone else's work and presenting it as your own",
+                    "Sharing content with permission",
+                    "Citing sources properly"
+                ],
+        answer: "Using someone else's work and presenting it as your own"
+            },
+      {
+        question: "43. In online communication, what does 'tone' refer to?",
+        options: [
+                    "The volume of your voice",
+                    "The use of emoticons",
+                    "The attitude or feeling conveyed in your message",
+                    "The length of your message"
+                ],
+        answer: "The attitude or feeling conveyed in your message"
+            },
+      {
+        question: "44. Why should you be mindful of your tone in online communication?",
+        options: [
+                    "Tone is not important online",
+                    "To avoid misunderstandings",
+                    "To use slang effectively",
+                    "To write in all capital letters"
+                ],
+        answer: "To avoid misunderstandings"
+            },
+      {
+        question: "45. What is a 'flame war'?",
+        options: [
+                    "A friendly online debate",
+                    "An intense and angry online argument",
+                    "A discussion about fire safety",
+                    "Sharing funny memes"
+                ],
+        answer: "An intense and angry online argument"
+            },
+      {
+        question: "46. What is the best way to handle a flame war?",
+        options: [
+                    "Join the argument",
+                    "Try to calm things down and bring the conversation back to a respectful place",
+                    "Use more aggressive language",
+                    "Ignore it completely"
+                ],
+        answer: "Try to calm things down and bring the conversation back to a respectful place"
+            },
+      {
+        question: "47. Is it acceptable to share someone's private online messages without their permission?",
+        options: [
+                    "Yes, if it's interesting",
+                    "No, it's a breach of privacy",
+                    "Yes, if you don't reveal their name",
+                    "It depends on the platform"
+                ],
+        answer: "No, it's a breach of privacy"
+            },
+      {
+        question: "48. Why should you avoid sharing personal details like your home address online?",
+        options: [
+                    "To make it easier for friends to find you",
+                    "To protect yourself from cybercriminals and identity theft",
+                    "There's no risk in sharing personal details",
+                    "To get more followers on social media"
+                ],
+        answer: "To protect yourself from cybercriminals and identity theft"
+            },
+      {
+        question: "49. What is 'cyberbullying'?",
+        options: [
+                    "Promoting kindness online",
+                    "Using digital tools to harass or harm others",
+                    "Teaching computer skills",
+                    "Creating online games"
+                ],
+        answer: "Using digital tools to harass or harm others"
+            },
+      {
+        question: "50. Which of the following is NOT a good practice in online communication?",
+        options: [
+                    "Being respectful of others' opinions",
+                    "Using clear and respectful language",
+                    "Spreading rumors or false information",
+                    "Proofreading your messages"
+                ],
+        answer: "Spreading rumors or false information"
+            },
+      {
+        question: "51. What does ICT enable?",
+        options: [
+                    "Only text-based communication",
+                    "Different forms of media to merge and be shared across distances",
+                    "Slower communication",
+                    "Less collaboration"
+                ],
+        answer: "Different forms of media to merge and be shared across distances" 
+            },
+      {
+        question: "52. According to the text, what is 'social change'?",
+        options: [
+                    "Changes in technology only",
+                    "Shifts in cultural values, social behaviors, and institutions over time",
+                    "How people use social media",
+                    "The speed of technological advancement"
+                ],
+        answer: "Shifts in cultural values, social behaviors, and institutions over time" 
+            },
+      {
+        question: "53. Which is NOT a characteristic of the Digital Age?",
+        options: [
+                   "Widespread use of computers",
+                   "Increased reliance on the internet",
+                   "Dominance of industrial economies",
+                   "Central role of mobile devices"
+               ],
+        answer: "Dominance of industrial economies"
+           },
+      {
+        question: "54. What has replaced traditional TV and cinema for many people in the Digital Age?",
+        options: [
+                   "Radio broadcasts",
+                   "Streaming services",
+                   "Newspapers",
+                   "Live theater"
+               ],
+        answer: "Streaming services" 
+           },
+      {
+        question: "55. How has ICT changed business operations?",
+        options: [
+                   "Decreasing automation",
+                   "Limiting data analysis",
+                   "Enhancing communication",
+                   "Complicating supply chains"
+               ],
+        answer: "Enhancing communication" 
+           },
+      {
+        question: "56. What is a benefit of using chatbots and CRM software?",
+        options: [
+                   "Decreased customer engagement",
+                   "Better user experiences",
+                   "Increased costs",
+                   "Limited online reviews"
+               ],
+        answer: "Better user experiences" 
+           },
+      {
+        question: "57. What does PowerPoint allow you to produce?",
+        options: [
+                   "Professional-looking presentations",
+                   "Word-processing documents",
+                   "Spreadsheets",
+                   "Database files"
+               ],
+        answer: "Professional-looking presentations" 
+           },
+      {
+        question: "58. What is a PowerPoint slide show?",
+        options: [
+                   "A single slide with text",
+                   "A collection of slides presented in a set pattern",
+                   "A handout with presentation information",
+                   "A video of the presentation"
+               ],
+        answer: "A collection of slides presented in a set pattern" 
+           },
+      {
+        question: "59. Which of the following is an element of a PPT?",
+        options: [
+                   "Emails",
+                   "Web pages",
+                   "Clip Art",
+                   "Computer code"
+               ],
+        answer: "Clip Art" 
+           },
+      {
+        question: "60. What is the purpose of graphs in a PPT?",
+        options: [
+                   "To add audio elements",
+                   "To organize data in rows and columns",
+                   "To visually represent statistical data",
+                   "To embed video content"
+               ],
+        answer: "To visually represent statistical data" 
+           },
+      {
+        question: "61. What does the Golden Rule advise in netiquette?",
+        options: [
+                    "Using emoticons frequently",
+                    "Treating others with kindness and respect",
+                    "Avoiding slang and acronyms",
+                    "Writing in all capital letters"
+                ],
+        answer: "Treating others with kindness and respect" 
+            },
+      {
+        question: "62. Why is it important to make a good impression in online communication?",
+        options: [
+                    "To use aggressive communication",
+                    "Because your online communication represents you",
+                    "To use text talk and abbreviations",
+                    "To avoid being mindful of tone"
+                ],
+        answer: "Because your online communication represents you" 
+            },
+      {
+        question: "63. What should you avoid in professional and academic communication?",
+        options: [
+                    "Clear and formal language",
+                    "Proper grammar and spelling",
+                    "Slang, acronyms, and text talk",
+                    "Respectful language"
+                ],
+        answer: "Slang, acronyms, and text talk"
+            },
+      {
+        question: "64. What should you consider when sharing information online?",
+        options: [
+                    "Sharing private messages without permission",
+                    "The potential wide audience of social media posts",
+                    "Posting without thinking",
+                    "Ignoring potential consequences"
+                ],
+        answer: "The potential wide audience of social media posts" 
+            },
+      {
+        question: "65. What type of information should you avoid sharing online?",
+        options: [
+                    "Home address and phone number",
+                    "General opinions",
+                    "Public information",
+                    "Basic facts"
+                ],
+        answer: "Home address and phone number" 
+            },
+      {
+        question: "66. What does 'netiquette' primarily focus on?",
+        options: [
+                    "Designing computer hardware",
+                    "Social interaction, communication, and conduct in digital spaces",
+                    "Creating software applications",
+                    "Regulating internet service providers"
+                ],
+        answer: "Social interaction, communication, and conduct in digital spaces" 
+            },
+      {
+        question: "67. What do 'computer ethics' generally refer to?",
+        options: [
+                    "Rules for designing websites",
+                    "Moral principles for responsible technology use",
+                    "Standards for creating software",
+                    "Guidelines for using social media"
+                ],
+        answer: "Moral principles for responsible technology use"
+            },
+      {
+        question: "68. According to the text, what is 'innovation'?",
+        options: [
+                    "The creation of new devices",
+                    "Applying inventions in practical ways",
+                    "The spread of new tools",
+                    "Improving existing systems"
+                ],
+        answer: "Applying inventions in practical ways" 
+            },
+      {
+        question: "69. What is 'diffusion' in the context of technological change?",
+        options: [
+                    "The invention of new tools",
+                    "The commercial application of inventions",
+                    "When innovations are widely adopted by society",
+                    "The process of improving existing technology"
+                ],
+        answer: "When innovations are widely adopted by society" 
+            },
+      {
+        question: "70. What does Technological Determinism suggest?",
+        options: [
+                    "Technology is shaped by society",
+                    "Technology drives the development of society",
+                    "Technology has no impact on society",
+                    "Society and technology do not interact"
+                ],
+        answer: "Technology drives the development of society" 
+            },
+      ];
+
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+      }
+
+      // Shuffle questions and options
+      shuffleArray(quizData);
+      quizData.forEach(question => {
+        shuffleArray(question.options);
+      });
+
+      // Initialize variables
+      let currentQuestion = 0;
+      let score = 0;
+      let userAnswers = new Array(quizData.length).fill(null);
+
+      // DOM elements
+      const quizContainer = document.getElementById('quiz-container');
+      const scoreElement = document.getElementById('score');
+      const totalQuestionsElement = document.getElementById('total-questions');
+      const submitBtn = document.getElementById('submit-btn');
+      const restartBtn = document.getElementById('restart-btn');
+
+      // Set total questions
+      totalQuestionsElement.textContent = quizData.length;
+
+      // Display quiz questions
+      function displayQuiz() {
+        quizContainer.innerHTML = '';
+
+        quizData.forEach((questionData, index) => {
+          const questionElement = document.createElement('div');
+          questionElement.className = 'question';
+          questionElement.innerHTML = `
+            <div class="question-text">${questionData.question}</div>
+            <div class="options" id="options-${index}">
+              ${questionData.options.map(option => `
+                <div class="option" data-question="${index}" data-option="${option}">${option}</div>
+              `).join('')}
+            </div>
+            <div class="feedback" id="feedback-${index}"></div>
+          `;
+          quizContainer.appendChild(questionElement);
+        });
+
+        // Add event listeners to options
+        document.querySelectorAll('.option').forEach(option => {
+          option.addEventListener('click', selectOption);
+        });
+      }
+
+      // Handle option selection
+      function selectOption(e) {
+        const questionIndex = parseInt(e.target.getAttribute('data-question'));
+        const selectedOption = e.target.getAttribute('data-option');
+
+        // Store user's answer
+        userAnswers[questionIndex] = selectedOption;
+
+        // Update UI
+        const options = document.querySelectorAll(`#options-${questionIndex} .option`);
+        options.forEach(opt => {
+          opt.classList.remove('selected');
+        });
+        e.target.classList.add('selected');
+      }
+
+      // Check answers and calculate score
+      function checkAnswers() {
+        score = 0;
+        quizData.forEach((questionData, index) => {
+          if (userAnswers[index] === questionData.answer) {
+            score++;
+          }
+
+          // Show feedback
+          const feedbackElement = document.getElementById(`feedback-${index}`);
+          const options = document.querySelectorAll(`#options-${index} .option`);
+
+          options.forEach(opt => {
+            opt.classList.remove('correct', 'incorrect');
+            if (opt.getAttribute('data-option') === questionData.answer) {
+              opt.classList.add('correct');
+            } else if (opt.getAttribute('data-option') === userAnswers[index] && userAnswers[index] !== questionData.answer) {
+              opt.classList.add('incorrect');
+            }
+          });
+
+          if (userAnswers[index] === questionData.answer) {
+            feedbackElement.textContent = 'Correct!';
+            feedbackElement.className = 'feedback correct-feedback';
+          } else if (userAnswers[index] !== null) {
+            feedbackElement.textContent = `Incorrect. The correct answer is: ${questionData.answer}`;
+            feedbackElement.className = 'feedback incorrect-feedback';
+          } else {
+            feedbackElement.textContent = `You didn't answer this question. The correct answer is: ${questionData.answer}`;
+            feedbackElement.className = 'feedback incorrect-feedback';
+          }
+
+          feedbackElement.style.display = 'block';
+        });
+
+        // Update score
+        scoreElement.textContent = score;
+
+        // Show restart button
+        submitBtn.style.display = 'none';
+        restartBtn.style.display = 'block';
+      }
+
+      // Restart quiz
+      function restartQuiz() {
+        score = 0;
+        userAnswers = new Array(quizData.length).fill(null);
+        scoreElement.textContent = '0';
+
+        // Reset UI
+        displayQuiz();
+
+        submitBtn.style.display = 'block';
+        restartBtn.style.display = 'none';
+      }
+
+      // Event listeners
+      submitBtn.addEventListener('click', checkAnswers);
+      restartBtn.addEventListener('click', restartQuiz);
+
+      // Initialize quiz
+      displayQuiz();
+    });
+  </script>
+</body>
+</html>

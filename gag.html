@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photography and Visual Arts Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .quiz-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    .options {
+      margin-top: 10px;
+    }
+
+    .option {
+      margin: 5px 0;
+      padding: 8px;
+      background-color: #e8f4fc;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .option:hover {
+      background-color: #d0e3f1;
+    }
+
+    .option.selected {
+      background-color: #3498db;
+      color: white;
+    }
+
+    .option.correct {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    .option.incorrect {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .score-container {
+      text-align: center;
+      font-size: 18px;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .correct-feedback {
+      background-color: #d5f5e3;
+      color: #27ae60;
+    }
+
+    .incorrect-feedback {
+      background-color: #fadbd8;
+      color: #e74c3c;
+    }
+
+    #submit-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 25px;
+      font-size: 18px;
+      background-color: #2ecc71;
+    }
+
+    #submit-btn:hover {
+      background-color: #27ae60;
+    }
+
+    #restart-btn {
+      display: block;
+      margin: 20px auto;
+      background-color: #e74c3c;
+    }
+
+    #restart-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Photography and Visual Arts Quiz</h1>
+
+  <div class="score-container">
+    Score: <span id="score">0</span> / <span id="total-questions">40</span>
+  </div>
+
+  <div class="quiz-container" id="quiz-container">
+    <!-- Questions will be inserted here by JavaScript -->
+  </div>
+
+  <button id="submit-btn">Submit Answers</button>
+  <button id="restart-btn" style="display: none;">Restart Quiz</button>
+
+  <script>
+    const quizData = [
+      {
+        question: "1. The word 'photography' is derived from Greek words meaning:",
+        options: [
+                    "'light' and 'to draw'",
+                    "'image' and 'writing'",
+                    "'camera' and 'picture'",
+                    "'shadow' and 'capture'"
+                ],
+        answer: "'light' and 'to draw'"
+            },
+      {
+        question: "2. Who is credited with popularizing 'hello' as a telephone greeting?",
+        options: [
+                    "Alexander Graham Bell",
+                    "Thomas Edison",
+                    "Nikola Tesla",
+                    "Guglielmo Marconi"
+                ],
+        answer: "Thomas Edison"
+            },
+      {
+        question: "3. What was the name of Talbot's improved negative process?",
+        options: [
+                    "Daguerreotype",
+                    "Calotype",
+                    "Collodion",
+                    "Albumen"
+                ],
+        answer: "Calotype"
+            },
+      {
+        question: "4. What year was the wet collodion process introduced?",
+        options: [
+                    "1839",
+                    "1851",
+                    "1871",
+                    "1888"
+                ],
+        answer: "1851"
+            },
+      {
+        question: "5. Who introduced albumen paper?",
+        options: [
+                    "Louis Daguerre",
+                    "Henry Fox Talbot",
+                    "Louis-Désiré Blanquart-Evrard",
+                    "George Eastman"
+                ],
+        answer: "Louis-Désiré Blanquart-Evrard"
+            },
+      {
+        question: "6. What was the size of the albumen print used for carte-de-visite?",
+        options: [
+                    "3 x 5 inches",
+                    "4 x 6 inches",
+                    "5 x 7 inches",
+                    "8 x 10 inches"
+                ],
+        answer: "5 x 7 inches"
+            },
+      {
+        question: "7. In what year was the Kodak camera introduced?",
+        options: [
+                    "1878",
+                    "1888",
+                    "1898",
+                    "1908"
+                ],
+        answer: "1888"
+            },
+      {
+        question: "8. Who is known for his photographs of horses in motion?",
+        options: [
+                    "Eadweard Muybridge",
+                    "Ansel Adams",
+                    "Alfred Stieglitz",
+                    "Edward Weston"
+                ],
+        answer: "Eadweard Muybridge"
+            },
+      {
+        question: "9. What process, introduced in 1907, was the first practical color photography process?",
+        options: [
+                    "Kodachrome",
+                    "Autochrome",
+                    "Dufaycolor",
+                    "Technicolor"
+                ],
+        answer: "Autochrome"
+            },
+      {
+        question: "10. Which photographer is known for documenting Paris?",
+        options: [
+                    "Henri Cartier-Bresson",
+                    "Eugene Atget",
+                    "Brassaï",
+                    "Robert Doisneau"
+                ],
+        answer: "Eugene Atget"
+            },
+      {
+        question: "11. How did the camera obscura contribute to the development of photography?",
+        options: [
+                    "It was the first portable camera",
+                    "It demonstrated the principle of projecting images through a lens.",
+                    "It allowed for color photography",
+                    "It reduced exposure times dramatically"
+                ],
+        answer: "It demonstrated the principle of projecting images through a lens."
+            },
+      {
+        question: "12. What was a key difference between Niépce's and Daguerre's photographic goals?",
+        options: [
+                    "Niépce focused on reproducibility, while Daguerre sought to reduce exposure time.",
+                    "Niépce wanted color images, while Daguerre worked with black and white",
+                    "Niépce worked with paper, while Daguerre used metal plates",
+                    "Niépce photographed landscapes, while Daguerre did portraits"
+                ],
+        answer: "Niépce focused on reproducibility, while Daguerre sought to reduce exposure time."
+            },
+      {
+        question: "13. Why was the invention of dry plates significant in the history of photography?",
+        options: [
+                    "They allowed for color photography",
+                    "They made cameras much smaller",
+                    "They allowed for instantaneous snapshots and hand-held cameras.",
+                    "They improved image resolution dramatically"
+                ],
+        answer: "They allowed for instantaneous snapshots and hand-held cameras."
+            },
+      {
+        question: "14. What problem was Muybridge trying to solve with his photography of movement?",
+        options: [
+                    "To prove that animals' leg positions in traditional art were inaccurate.",
+                    "To capture the beauty of animals in motion",
+                    "To create the first motion pictures",
+                    "To measure the speed of racehorses"
+                ],
+        answer: "To prove that animals' leg positions in traditional art were inaccurate."
+            },
+      {
+        question: "15. How did the introduction of color photography impact the field?",
+        options: [
+                    "It was initially achieved through hand-tinting and later through processes like Autochrome.",
+                    "It made black and white photography obsolete",
+                    "It reduced the cost of photography dramatically",
+                    "It allowed for faster shutter speeds"
+                ],
+        answer: "It was initially achieved through hand-tinting and later through processes like Autochrome."
+            },
+      {
+        question: "16. If a photographer wanted to create a series of photographs to document the changes in a person's appearance over time, which photographic genre would be most suitable?",
+        options: [
+                    "Fashion Photography",
+                    "Documentary Photography",
+                    "Surreal Photography",
+                    "Macro Photography"
+                ],
+        answer: "Documentary Photography"
+            },
+      {
+        question: "17. A photographer is hired to capture images of a new line of clothing in a fast-paced setting. Which type of photography is most applicable?",
+        options: [
+                    "Fashion Photography",
+                    "Landscape Photography",
+                    "Architectural Photography",
+                    "Wildlife Photography"
+                ],
+        answer: "Fashion Photography"
+            },
+      {
+        question: "18. A scientist needs to capture detailed images of insects for research. Which photographic technique would be most effective?",
+        options: [
+                    "Aerial Photography",
+                    "Macro Photography",
+                    "Portrait Photography",
+                    "Street Photography"
+                ],
+        answer: "Macro Photography"
+            },
+      {
+        question: "19. A real estate agent wants photographs that highlight the spaciousness of interiors in houses for sale. Which photographic technique would be most helpful?",
+        options: [
+                    "Using telephoto lenses",
+                    "Using wide-angle lenses",
+                    "Using macro lenses",
+                    "Using fisheye lenses"
+                ],
+        answer: "Using wide-angle lenses"
+            },
+      {
+        question: "20. A photographer aims to create images that evoke a dreamlike or fantastical feeling. Which genre aligns with this artistic goal?",
+        options: [
+                    "Documentary Photography",
+                    "Surreal Photography",
+                    "Sports Photography",
+                    "Food Photography"
+                ],
+        answer: "Surreal Photography"
+            },
+      {
+        question: "21. How did the development of photography influence the art of painting?",
+        options: [
+                    "It caused painting to become obsolete",
+                    "It initially caused fear among painters, but later became a tool for them.",
+                    "It had no significant impact on painting",
+                    "It made painting more abstract"
+                ],
+        answer: "It initially caused fear among painters, but later became a tool for them."
+            },
+      {
+        question: "22. What were the limitations of early photography?",
+        options: [
+                    "Inability to record colors and difficulty capturing moving objects",
+                    "Extremely high cost and large equipment size",
+                    "Poor image quality and short lifespan of prints",
+                    "Limited to black and white and required long exposure times"
+                ],
+        answer: "Inability to record colors and difficulty capturing moving objects"
+            },
+      {
+        question: "23. How did technical advancements in photography affect its accessibility and popularity?",
+        options: [
+                    "Developments like dry plates and roll film increased its accessibility and popularity.",
+                    "They made photography more expensive and exclusive",
+                    "They had little impact on accessibility",
+                    "They reduced image quality but made cameras smaller"
+                ],
+        answer: "Developments like dry plates and roll film increased its accessibility and popularity."
+            },
+      {
+        question: "24. What role did the Industrial Revolution play in the development of photography?",
+        options: [
+                    "It created a demand for more efficient image capturing methods.",
+                    "It slowed down photographic innovation",
+                    "It made photography equipment more expensive",
+                    "It had no significant impact"
+                ],
+        answer: "It created a demand for more efficient image capturing methods."
+            },
+      {
+        question: "25. How did different photographers use the medium to express their individual vision?",
+        options: [
+                    "Some, like Nadar, used it for portraiture, while others, like Atget, used it for documentation.",
+                    "All photographers focused on landscape photography",
+                    "Most photographers imitated painting styles",
+                    "Early photographers only documented scientific subjects"
+                ],
+        answer: "Some, like Nadar, used it for portraiture, while others, like Atget, used it for documentation."
+            },
+      {
+        question: "26. It contains and defines the internal structure of the masses of the sculpture, and it is the part of the sculpture that enters into relations with external space.",
+        options: [
+                    "Form",
+                    "Mass",
+                    "Surface",
+                    "Texture"
+                ],
+        answer: "Surface"
+            },
+      {
+        question: "27. It is the solid, material, space-occupying bulk that is contained within its surfaces.",
+        options: [
+                    "Volume",
+                    "Mass",
+                    "Line",
+                    "Color"
+                ],
+        answer: "Mass"
+            },
+      {
+        question: "28. It is an artistic form in which hard or plastic materials are worked into three-dimensional art objects.",
+        options: [
+                    "Painting",
+                    "Sculpture",
+                    "Architecture",
+                    "Printmaking"
+                ],
+        answer: "Sculpture"
+            },
+      {
+        question: "29. Most important element of sculpture.",
+        options: [
+                    "Color",
+                    "Texture",
+                    "Space",
+                    "Line"
+                ],
+        answer: "Space"
+            },
+      {
+        question: "30. It includes the size of work in giving dimensions, list of height, medium, display, and if its historical aspects.",
+        options: [
+                    "Technical data",
+                    "Artist statement",
+                    "Exhibition notes",
+                    "Critique"
+                ],
+        answer: "Technical data"
+            },
+      {
+        question: "31. This is a combination of the architect's art and engineer's skill.",
+        options: [
+                    "Sculpture",
+                    "Architecture",
+                    "Urban planning",
+                    "Interior design"
+                ],
+        answer: "Architecture"
+            },
+      {
+        question: "32. Is a term used to describe the degree to which a building facilitates the ability of users to find their way in.",
+        options: [
+                    "Architecture legibility",
+                    "Building fluency",
+                    "Design clarity",
+                    "Structural transparency"
+                ],
+        answer: "Architecture legibility"
+            },
+      {
+        question: "33. Is defined as a building with perfect logic and rich details, a recognizable form, and space that has the ability to evoke strong emotions.",
+        options: [
+                    "Functionality",
+                    "Readability",
+                    "Durability",
+                    "Sustainability"
+                ],
+        answer: "Readability"
+            },
+      {
+        question: "34. It direct toward as functionalism. People from different ages and cultures have distinct needs.",
+        options: [
+                    "Aesthetics",
+                    "Practicality",
+                    "Innovation",
+                    "Tradition"
+                ],
+        answer: "Practicality"
+            },
+      {
+        question: "35. It is convincingly justified by its clear and comprehensive logic, similar to the framework of a book.",
+        options: [
+                    "Integrity",
+                    "Complexity",
+                    "Originality",
+                    "Versatility"
+                ],
+        answer: "Integrity"
+            },
+      {
+        question: "36. The ability to find meaning through imagery.",
+        options: [
+                    "Visual Literacy",
+                    "Visual Reading",
+                    "Image Comprehension",
+                    "Art Interpretation"
+                ],
+        answer: "Visual Reading"
+            },
+      {
+        question: "37. It is a form of art that is seen.",
+        options: [
+                    "Performing Arts",
+                    "Literary Arts",
+                    "Visual Arts",
+                    "Digital Arts"
+                ],
+        answer: "Visual Arts"
+            },
+      {
+        question: "38. Some visual arts are used to communicate philosophical, political, ideas, messages, goals, and designs.",
+        options: [
+                    "Decorative",
+                    "Persuasive",
+                    "Functional",
+                    "Abstract"
+                ],
+        answer: "Persuasive"
+            },
+      {
+        question: "39. These are visual arts used to beautify things that can be used in everyday life.",
+        options: [
+                    "Functional",
+                    "Representational",
+                    "Non-objective",
+                    "Conceptual"
+                ],
+        answer: "Functional"
+            },
+      {
+        question: "40. These visual arts represent beauty for its own sake.",
+        options: [
+                    "Conveyance of Beauty",
+                    "Art for Art's Sake",
+                    "Aestheticism",
+                    "Decorative Arts"
+                ],
+        answer: "Conveyance of Beauty"
+            },
+      {
+        question: "41. A line that is perpendicularly from a focal surface. Upright.",
+        options: [
+                    "Horizontal",
+                    "Vertical",
+                    "Diagonal",
+                    "Curved"
+                ],
+        answer: "Vertical"
+            },
+      {
+        question: "42. A line running in slanting direction. This imply actions and movements.",
+        options: [
+                    "Horizontal",
+                    "Vertical",
+                    "Diagonal",
+                    "Zigzag"
+                ],
+        answer: "Diagonal"
+            },
+      {
+        question: "43. A combination of different lines would result to a certain __________.",
+        options: [
+                    "Color",
+                    "Texture",
+                    "Form",
+                    "Space"
+                ],
+        answer: "Form"
+            },
+      {
+        question: "44. __________ refers to the name of the color.",
+        options: [
+                    "Value",
+                    "Hue",
+                    "Intensity",
+                    "Shade"
+                ],
+        answer: "Hue"
+            },
+      {
+        question: "45. __________ refer to the disagreement of opposite hues.",
+        options: [
+                    "Analogous Color Harmonies",
+                    "Contrasted Color Harmonies",
+                    "Monochromatic Harmonies",
+                    "Complementary Colors"
+                ],
+        answer: "Contrasted Color Harmonies"
+            }
+        ];
+
+    // Initialize variables
+    let currentQuestion = 0;
+    let score = 0;
+    let userAnswers = new Array(quizData.length).fill(null);
+
+    // DOM elements
+    const quizContainer = document.getElementById('quiz-container');
+    const scoreElement = document.getElementById('score');
+    const totalQuestionsElement = document.getElementById('total-questions');
+    const submitBtn = document.getElementById('submit-btn');
+    const restartBtn = document.getElementById('restart-btn');
+
+    // Set total questions
+    totalQuestionsElement.textContent = quizData.length;
+
+    // Display quiz questions
+    function displayQuiz() {
+      quizContainer.innerHTML = '';
+
+      quizData.forEach((questionData, index) => {
+        const questionElement = document.createElement('div');
+        questionElement.className = 'question';
+        questionElement.innerHTML = `
+                    <div class="question-text">${questionData.question}</div>
+                    <div class="options" id="options-${index}">
+                        ${questionData.options.map(option => `
+                            <div class="option" data-question="${index}" data-option="${option}">${option}</div>
+                        `).join('')}
+                    </div>
+                    <div class="feedback" id="feedback-${index}"></div>
+                `;
+        quizContainer.appendChild(questionElement);
+      });
+
+      // Add event listeners to options
+      document.querySelectorAll('.option').forEach(option => {
+        option.addEventListener('click', selectOption);
+      });
+    }
+
+    // Handle option selection
+    function selectOption(e) {
+      const questionIndex = parseInt(e.target.getAttribute('data-question'));
+      const selectedOption = e.target.getAttribute('data-option');
+
+      // Store user's answer
+      userAnswers[questionIndex] = selectedOption;
+
+      // Update UI
+      const options = document.querySelectorAll(`#options-${questionIndex} .option`);
+      options.forEach(opt => {
+        opt.classList.remove('selected');
+      });
+      e.target.classList.add('selected');
+    }
+
+    // Check answers and calculate score
+    function checkAnswers() {
+      score = 0;
+      quizData.forEach((questionData, index) => {
+        if (userAnswers[index] === questionData.answer) {
+          score++;
+        }
+
+        // Show feedback
+        const feedbackElement = document.getElementById(`feedback-${index}`);
+        const options = document.querySelectorAll(`#options-${index} .option`);
+
+        options.forEach(opt => {
+          opt.classList.remove('correct', 'incorrect');
+          if (opt.getAttribute('data-option') === questionData.answer) {
+            opt.classList.add('correct');
+          } else if (opt.getAttribute('data-option') === userAnswers[index] && userAnswers[index] !== questionData.answer) {
+            opt.classList.add('incorrect');
+          }
+        });
+
+        if (userAnswers[index] === questionData.answer) {
+          feedbackElement.textContent = 'Correct!';
+          feedbackElement.className = 'feedback correct-feedback';
+        } else if (userAnswers[index] !== null) {
+          feedbackElement.textContent = `Incorrect. The correct answer is: ${questionData.answer}`;
+          feedbackElement.className = 'feedback incorrect-feedback';
+        } else {
+          feedbackElement.textContent = `You didn't answer this question. The correct answer is: ${questionData.answer}`;
+          feedbackElement.className = 'feedback incorrect-feedback';
+        }
+
+        feedbackElement.style.display = 'block';
+      });
+
+      // Update score
+      scoreElement.textContent = score;
+
+      // Show restart button
+      submitBtn.style.display = 'none';
+      restartBtn.style.display = 'block';
+    }
+
+    // Restart quiz
+    function restartQuiz() {
+      score = 0;
+      userAnswers = new Array(quizData.length).fill(null);
+      scoreElement.textContent = '0';
+
+      // Reset UI
+      displayQuiz();
+
+      submitBtn.style.display = 'block';
+      restartBtn.style.display = 'none';
+    }
+
+    // Event listeners
+    submitBtn.addEventListener('click', checkAnswers);
+    restartBtn.addEventListener('click', restartQuiz);
+
+    // Initialize quiz
+    displayQuiz();
+  </script>
+</body>
+
+</html>

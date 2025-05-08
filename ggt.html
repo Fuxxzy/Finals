@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Knowledge Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .quiz-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    .options {
+      margin-top: 10px;
+    }
+
+    .option {
+      margin: 5px 0;
+      padding: 8px;
+      background-color: #e8f4fc;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .option:hover {
+      background-color: #d0e3f1;
+    }
+
+    .option.selected {
+      background-color: #3498db;
+      color: white;
+    }
+
+    .option.correct {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    .option.incorrect {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .score-container {
+      text-align: center;
+      font-size: 18px;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .correct-feedback {
+      background-color: #d5f5e3;
+      color: #27ae60;
+    }
+
+    .incorrect-feedback {
+      background-color: #fadbd8;
+      color: #e74c3c;
+    }
+
+    #submit-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 25px;
+      font-size: 18px;
+      background-color: #2ecc71;
+    }
+
+    #submit-btn:hover {
+      background-color: #27ae60;
+    }
+
+    #restart-btn {
+      display: block;
+      margin: 20px auto;
+      background-color: #e74c3c;
+    }
+
+    #restart-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>CSS Knowledge Quiz</h1>
+
+  <div class="score-container">
+    Score: <span id="score">0</span> / <span id="total-questions">40</span>
+  </div>
+
+  <div class="quiz-container" id="quiz-container">
+    <!-- Questions will be inserted here by JavaScript -->
+  </div>
+
+  <button id="submit-btn">Submit Answers</button>
+  <button id="restart-btn" style="display: none;">Restart Quiz</button>
+
+  <script>
+    const quizData = [
+      {
+        question: "1. What does CSS stand for?",
+        options: [
+                    "Computer Style Sheets",
+                    "Creative Style Sheets",
+                    "Cascading Style Sheets",
+                    "Colorful Style Sheets"
+                ],
+        answer: "Cascading Style Sheets"
+            },
+      {
+        question: "2. Which HTML tag is used to link an external CSS file?",
+        options: [
+                    "style",
+                    "script",
+                    "link",
+                    "css"
+                ],
+        answer: "link"
+            },
+      {
+        question: "3. What is the correct syntax to make all paragraph elements have red text?",
+        options: [
+                    "p {color: red;}",
+                    "p {font-color: red;}",
+                    "p {text-color: red;}",
+                    "all.p {color: red;}"
+                ],
+        answer: "p {color: red;}"
+            },
+      {
+        question: "4. Where is the correct place to insert an internal CSS?",
+        options: [
+                    "At the end of the HTML document",
+                    "Inside the style tag in the head section",
+                    "In the body section",
+                    "In a separate file"
+                ],
+        answer: "Inside the style tag in the head section"
+            },
+      {
+        question: "5. How do you select an element with id 'main'?",
+        options: [
+                    ".main",
+                    "#main",
+                    "*main",
+                    "main"
+                ],
+        answer: "#main"
+            },
+      {
+        question: "6. Which selector is used to style all elements on the page?",
+        options: [
+                    "*",
+                    "#",
+                    "all",
+                    "."
+                ],
+        answer: "*"
+            },
+      {
+        question: "7. What CSS property is used to change the background color?",
+        options: [
+                    "bgcolor",
+                    "background-color",
+                    "color",
+                    "background"
+                ],
+        answer: "background-color"
+            },
+      {
+        question: "8. What does the class selector start with?",
+        options: [
+                    "#",
+                    ".",
+                    "*",
+                    "class"
+                ],
+        answer: "."
+            },
+      {
+        question: "9. Which CSS layout module is best for two-dimensional layout?",
+        options: [
+                    "Flexbox",
+                    "Grid",
+                    "Float",
+                    "Position"
+                ],
+        answer: "Grid"
+            },
+      {
+        question: "10. In CSS, how do you insert a comment?",
+        options: [
+                    "// comment //",
+                    "/* comment */",
+                    "&lt;!-- comment --&gt;",
+                    "' comment '"
+                ],
+        answer: "/* comment */"
+            },
+      {
+        question: "11. What happens when multiple CSS rules target the same element?",
+        options: [
+                    "The first rule is applied",
+                    "The last rule read by the browser is applied",
+                    "All rules are combined",
+                    "An error occurs"
+                ],
+        answer: "The last rule read by the browser is applied"
+            },
+      {
+        question: "12. Which property is used to center-align text?",
+        options: [
+                    "text-align: center;",
+                    "align: center;",
+                    "text-center: true;",
+                    "center-text: yes;"
+                ],
+        answer: "text-align: center;"
+            },
+      {
+        question: "13. What is the purpose of the grid-area property?",
+        options: [
+                    "To name or define the layout area",
+                    "To set the background color of a grid",
+                    "To create space between grid items",
+                    "To align the grid container"
+                ],
+        answer: "To name or define the layout area"
+            },
+      {
+        question: "14. What does gap define in a CSS grid?",
+        options: [
+                    "The space between rows and columns",
+                    "The size of the grid container",
+                    "The alignment of grid items",
+                    "The border around grid items"
+                ],
+        answer: "The space between rows and columns"
+            },
+      {
+        question: "15. Which is NOT a valid value for the display property?",
+        options: [
+                    "block",
+                    "inline",
+                    "flex",
+                    "hide"
+                ],
+        answer: "hide"
+            },
+      {
+        question: "16. How do you define styles for just a single element directly in the tag?",
+        options: [
+                    "External CSS",
+                    "Internal CSS",
+                    "Inline CSS",
+                    "Embedded CSS"
+                ],
+        answer: "Inline CSS"
+            },
+      {
+        question: "17. What's the correct way to group selectors?",
+        options: [
+                    "div, p, h1",
+                    "div + p + h1",
+                    "div p h1",
+                    "div.p.h1"
+                ],
+        answer: "div, p, h1"
+            },
+      {
+        question: "18. What is the correct syntax to apply styles to only paragraph elements with class 'center'?",
+        options: [
+                    ".center p",
+                    "p.center",
+                    "p .center",
+                    "p, .center"
+                ],
+        answer: ".center p"
+            },
+      {
+        question: "19. What is used to specify the size of columns in a grid?",
+        options: [
+                    "grid-columns",
+                    "grid-template-columns",
+                    "grid-size-columns",
+                    "grid-column-size"
+                ],
+        answer: "grid-template-columns"
+            },
+      {
+        question: "20. What tag should wrap all the grid items?",
+        options: [
+                    "container",
+                    "grid",
+                    "div",
+                    "section"
+                ],
+        answer: "div"
+            },
+      {
+        question: "21. CSS can be used to style the layout for multiple pages.",
+        options: [
+                    "TRUE",
+                    "FALSE"
+                ],
+        answer: "TRUE"
+            },
+      {
+        question: "22. You can only use one style sheet per webpage.",
+        options: [
+                    "TRUE",
+                    "FALSE"
+                ],
+        answer: "FALSE"
+            },
+      {
+        question: "23. Inline CSS is the best method for styling multiple elements on a website.",
+        options: [
+                    "TRUE",
+                    "FALSE"
+                ],
+        answer: "FALSE"
+            },
+      {
+        question: "24. CSS Grid is recommended for one-dimensional layouts only.",
+        options: [
+                    "TRUE",
+                    "FALSE"
+                ],
+        answer: "FALSE"
+            },
+      {
+        question: "25. The class selector uses the # symbol.",
+        options: [
+                    "TRUE",
+                    "FALSE"
+                ],
+        answer: "FALSE"
+            },
+      {
+        question: "26. A grid container must contain at least one grid item.",
+        options: [
+                    "TRUE",
+                    "FALSE"
+                ],
+        answer: "TRUE"
+            },
+      {
+        question: "27. The universal selector affects all HTML elements on the page.",
+        options: [
+                    "TRUE",
+                    "FALSE"
+                ],
+        answer: "TRUE"
+            },
+      {
+        question: "28. The text-align property can only be used on headings.",
+        options: [
+                    "TRUE",
+                    "FALSE"
+                ],
+        answer: "FALSE"
+            },
+      {
+        question: "29. The .center selector selects all elements with the class 'center'.",
+        options: [
+                    "TRUE",
+                    "FALSE"
+                ],
+        answer: "TRUE"
+            },
+      {
+        question: "30. CSS comments can be written using &lt;!-- comment --&gt;.",
+        options: [
+                    "TRUE",
+                    "FALSE"
+                ],
+        answer: "FALSE"
+            },
+      {
+        question: "31. The CSS selector that uses # to target a unique element is called:",
+        options: [
+                    "Class selector",
+                    "Id selector",
+                    "Element selector",
+                    "Universal selector"
+                ],
+        answer: "Id selector"
+            },
+      {
+        question: "32. The type of CSS used inside the head section of an HTML document is called:",
+        options: [
+                    "External",
+                    "Internal",
+                    "Inline",
+                    "Embedded"
+                ],
+        answer: "Internal"
+            },
+      {
+        question: "33. The CSS property used to set the font of text is:",
+        options: [
+                    "font-style",
+                    "font-family",
+                    "text-font",
+                    "font-type"
+                ],
+        answer: "font-family"
+            },
+      {
+        question: "34. The CSS layout module designed for two-dimensional layout is:",
+        options: [
+                    "Flexbox",
+                    "Grid",
+                    "Float",
+                    "Position"
+                ],
+        answer: "Grid"
+            },
+      {
+        question: "35. The part of a CSS rule that determines which HTML element is styled is called:",
+        options: [
+                    "Property",
+                    "Value",
+                    "Selector",
+                    "Declaration"
+                ],
+        answer: "Selector"
+            },
+      {
+        question: "36. The CSS property that adjusts the space between columns is:",
+        options: [
+                    "column-gap",
+                    "row-gap",
+                    "grid-gap",
+                    "space-between"
+                ],
+        answer: "column-gap"
+            },
+      {
+        question: "37. The shorthand property used to define both row and column gaps is:",
+        options: [
+                    "gap",
+                    "grid-gap",
+                    "spacing",
+                    "margin"
+                ],
+        answer: "gap"
+            },
+      {
+        question: "38. The property used to horizontally align a grid inside a container is:",
+        options: [
+                    "align-content",
+                    "justify-content",
+                    "grid-align",
+                    "horizontal-align"
+                ],
+        answer: "justify-content"
+            },
+      {
+        question: "39. The CSS selector that selects all elements of a given tag, like paragraph, is called:",
+        options: [
+                    "Id selector",
+                    "Class selector",
+                    "Element selector",
+                    "Attribute selector"
+                ],
+        answer: "Element selector"
+            },
+      {
+        question: "40. The symbol used to write CSS comments is:",
+        options: [
+                    "//",
+                    "/* */",
+                    "&lt;!-- --&gt;",
+                    "#"
+                ],
+        answer: "/* */"
+            }
+        ];
+
+    // Initialize variables
+    let currentQuestion = 0;
+    let score = 0;
+    let userAnswers = new Array(quizData.length).fill(null);
+
+    // DOM elements
+    const quizContainer = document.getElementById('quiz-container');
+    const scoreElement = document.getElementById('score');
+    const totalQuestionsElement = document.getElementById('total-questions');
+    const submitBtn = document.getElementById('submit-btn');
+    const restartBtn = document.getElementById('restart-btn');
+
+    // Set total questions
+    totalQuestionsElement.textContent = quizData.length;
+
+    // Display quiz questions
+    function displayQuiz() {
+      quizContainer.innerHTML = '';
+
+      quizData.forEach((questionData, index) => {
+        const questionElement = document.createElement('div');
+        questionElement.className = 'question';
+        questionElement.innerHTML = `
+                    <div class="question-text">${questionData.question}</div>
+                    <div class="options" id="options-${index}">
+                        ${questionData.options.map(option => `
+                            <div class="option" data-question="${index}" data-option="${option}">${option}</div>
+                        `).join('')}
+                    </div>
+                    <div class="feedback" id="feedback-${index}"></div>
+                `;
+        quizContainer.appendChild(questionElement);
+      });
+
+      // Add event listeners to options
+      document.querySelectorAll('.option').forEach(option => {
+        option.addEventListener('click', selectOption);
+      });
+    }
+
+    // Handle option selection
+    function selectOption(e) {
+      const questionIndex = parseInt(e.target.getAttribute('data-question'));
+      const selectedOption = e.target.getAttribute('data-option');
+
+      // Store user's answer
+      userAnswers[questionIndex] = selectedOption;
+
+      // Update UI
+      const options = document.querySelectorAll(`#options-${questionIndex} .option`);
+      options.forEach(opt => {
+        opt.classList.remove('selected');
+      });
+      e.target.classList.add('selected');
+    }
+
+    // Check answers and calculate score
+    function checkAnswers() {
+      score = 0;
+      quizData.forEach((questionData, index) => {
+        if (userAnswers[index] === questionData.answer) {
+          score++;
+        }
+
+        // Show feedback
+        const feedbackElement = document.getElementById(`feedback-${index}`);
+        const options = document.querySelectorAll(`#options-${index} .option`);
+
+        options.forEach(opt => {
+          opt.classList.remove('correct', 'incorrect');
+          if (opt.getAttribute('data-option') === questionData.answer) {
+            opt.classList.add('correct');
+          } else if (opt.getAttribute('data-option') === userAnswers[index] && userAnswers[index] !== questionData.answer) {
+            opt.classList.add('incorrect');
+          }
+        });
+
+        if (userAnswers[index] === questionData.answer) {
+          feedbackElement.textContent = 'Correct!';
+          feedbackElement.className = 'feedback correct-feedback';
+        } else if (userAnswers[index] !== null) {
+          feedbackElement.textContent = `Incorrect. The correct answer is: ${questionData.answer}`;
+          feedbackElement.className = 'feedback incorrect-feedback';
+        } else {
+          feedbackElement.textContent = `You didn't answer this question. The correct answer is: ${questionData.answer}`;
+          feedbackElement.className = 'feedback incorrect-feedback';
+        }
+
+        feedbackElement.style.display = 'block';
+      });
+
+      // Update score
+      scoreElement.textContent = score;
+
+      // Show restart button
+      submitBtn.style.display = 'none';
+      restartBtn.style.display = 'block';
+    }
+
+    // Restart quiz
+    function restartQuiz() {
+      score = 0;
+      userAnswers = new Array(quizData.length).fill(null);
+      scoreElement.textContent = '0';
+
+      // Reset UI
+      displayQuiz();
+
+      submitBtn.style.display = 'block';
+      restartBtn.style.display = 'none';
+    }
+
+    // Event listeners
+    submitBtn.addEventListener('click', checkAnswers);
+    restartBtn.addEventListener('click', restartQuiz);
+
+    // Initialize quiz
+    displayQuiz();
+  </script>
+</body>
+
+</html>
